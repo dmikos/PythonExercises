@@ -6,18 +6,22 @@ Task1. Мы будем использовать библиотеки tkinter и 
 Task2. Создадим основной игровой объект — цветной шарик. Заставим его появляться на месте щелчка мышью.
 Task3. Научим шарик двигаться и отскакивать от краёв экрана. Освоим управление движущимся шариком с помощью мыши.
 Task4. Создадим «россыпь» неподвижных шаров, которые наш шарик будет «выбивать». Научимся обрабатывать столкновения.
+Task5. Определим «опасные» шары. Если шарик касается их — мы проигрываем.
 """
 # constants
 WIDTH = 640
 HEIGHT = 480
+BLACK_COLOR = 'black'
 BG_COLOR = 'white'
-COLOR = ['aqua', 'fuchsia', 'pink', 'yellow', 'gold', 'chartreuse']
+BAD_COLOR = 'red'
+COLOR = ['aqua', 'fuchsia', BAD_COLOR, 'pink', 'yellow', BAD_COLOR, 'gold', 'chartreuse']
 ZERO = 0
 MAIN_BALL_RADIUS = 30
 MAIN_BALL_COLOR = 'blue'
 INIT_DX = 1
 INIT_DY = 1
 DELAY = 5
+NUM_OF_BALLS = 5
 
 
 # balls class
@@ -31,7 +35,8 @@ class Balls():
         self.dy = dy
 
     def draw(self): # рисуем круглый овал
-        canvas.create_oval(self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r, fill=self.color, outline=self.color)  # координаты левого верхнего угла и правого нижнего угла
+        canvas.create_oval(self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r, fill=self.color,
+                           outline=self.color if self.color != BAD_COLOR else BLACK_COLOR)  # координаты левого верхнего угла и правого нижнего угла
 
     def hide(self):
         canvas.create_oval(self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r, fill=BG_COLOR, outline=BG_COLOR)
@@ -53,10 +58,13 @@ class Balls():
         # colliding with balls
         for ball in balls:
             if self.is_collision(ball):
-                ball.hide()
-                balls.remove(ball)
-                self.dx = -self.dx
-                self.dy = -self.dy
+                if ball.color != BAD_COLOR:  # for good ball
+                    ball.hide()
+                    balls.remove(ball)
+                    self.dx = -self.dx
+                    self.dy = -self.dy
+                else:  # for bad ball
+                    self.dx = self.dy = 0
 
         self.hide()
         self.x += self.dx
@@ -96,10 +104,23 @@ def create_list_of_balls(number):
         next_ball.draw()
     return lst
 
+# count of bad balls
+def count_bad_balls(list_of_balls):
+    res = 0
+    for ball in list_of_balls:
+        if ball.color == BAD_COLOR:
+            res += 1
+    return res
+
 # main game cicle
 def main():
     if 'main_ball' in globals():
         main_ball.move()
+        if len(balls) - num_of_bad_balls == 0:  # we are won
+            canvas.create_text(WIDTH/2, HEIGHT/2, text='YOU are WON', font="Arial 20", fill=MAIN_BALL_COLOR)
+            main_ball.dx = main_ball.dy = 0
+        elif main_ball.dx == 0:
+            canvas.create_text(WIDTH / 2, HEIGHT / 2, text='YOU are LOSE', font="Arial 20", fill=BAD_COLOR)
     root.after(DELAY, main)
 
 root = tkinter.Tk()  # создаем корневое окно
@@ -110,6 +131,7 @@ canvas.bind('<Button-1>', mouse_click)
 canvas.bind('<Button-3>', mouse_click, '+')
 if 'main_ball' in globals():
     del main_ball
-balls = create_list_of_balls(5)
+balls = create_list_of_balls(NUM_OF_BALLS)
+num_of_bad_balls = count_bad_balls(balls)
 main()
 root.mainloop() # отобразить окно
