@@ -25,4 +25,4 @@ def palindrome_factors(digits):
     return best
 
 
-print(palindrome_factors(5))
+print(palindrome_factors(4))
