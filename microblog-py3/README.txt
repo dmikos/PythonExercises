@@ -1,3 +1,20 @@
+https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-now-with-python-3-support
+-
+pip3 install --user flask
+pip3 install --user flask-login
+pip3 install --user flask-openid
+pip3 install --user flask-mail
+pip3 install --user flask-sqlalchemy
+pip3 install --user sqlalchemy-migrate
+pip3 install --user flask-whooshalchemy
+pip3 install --user flask-wtf
+pip3 install --user flask-babel
+pip3 install --user guess_language
+pip3 install --user flipflop
+pip3 install --user coverage
+
+- - -
+
 https://habrahabr.ru/post/193242/
 flask/bin/pip install flask==0.9
 flask/bin/pip install flask-login
