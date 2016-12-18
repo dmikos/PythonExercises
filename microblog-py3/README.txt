@@ -1,3 +1,5 @@
+https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database
+-
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-now-with-python-3-support
 -
 pip3 install --user flask
