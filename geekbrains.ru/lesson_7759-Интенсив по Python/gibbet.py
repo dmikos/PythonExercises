@@ -3,6 +3,7 @@ import random
 import turtle
 import sys
 # https://geekbrains.ru/lessons/7759
+# 1:25:16
 
 
 def gotoxy(x, y):   #перемещаем курсор
