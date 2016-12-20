@@ -63,6 +63,7 @@ while True:
 
     if hints:
         gotoxy(230,200 - try_count)
+        turtle.color('black')
         if number < x:
             turtle.write("Загаданное число больше")
         elif number > x:
