@@ -26,7 +26,6 @@ if data[0] == 'GUESS':
         sock.sendall(bytes('TRY;{}'.format(x), 'utf-8'))
         received = sock.recv(1024).decode()
 
-
         data = received.split(';')
         if data[0] == 'TRYE':
             print('Вы угадали!')
