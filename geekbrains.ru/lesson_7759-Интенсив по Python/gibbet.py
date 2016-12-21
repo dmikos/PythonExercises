@@ -58,16 +58,17 @@ ans = turtle.textinput("Давать подсказки?", "y/n")
 hints = ans == 'y'
 try_count = 0
 
+turtle.speed(0)
 while True:
     number = turtle.numinput("Попробуй угадать", "Число", 0, 0, 100)
 
     if hints:
-        gotoxy(230,200 - try_count)
+        gotoxy(230,200 - try_count*15)
         turtle.color('black')
         if number < x:
-            turtle.write("Загаданное число больше")
+            turtle.write(str(number) + "  -  Загаданное число больше")
         elif number > x:
-            turtle.write("Загаданное число меньше")
+            turtle.write(str(number) + "  -  Загаданное число меньше")
 
     if number == x:
         gotoxy(-150, -200)
@@ -75,15 +76,15 @@ while True:
         turtle.write("Вы угадали", font=("Arial", 24, "normal"))
         break
     else:
-        gotoxy(-150, -200)
+        gotoxy(-150, 200)
         turtle.color('red')
         turtle.write("Неверно", font=("Arial", 20, "normal"))
         try_count += 1
         draw_gibbet_element(try_count)
         if try_count == 10:
-            gotoxy(-150, -150)
+            gotoxy(-150, 150)
             turtle.color('brown')
             turtle.write("Вы проиграли!", font=("Arial", 25, "normal"))
             break
 
-input()
+input('Нажмите Enter')
